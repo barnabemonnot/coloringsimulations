@@ -1,0 +1,6 @@
+0= six nodes, smallest network with suboptimal strict NE
+1= grid graph, 20 nodes, 5x4
+2= ring graph, 20 nodes => 2-colorable
+3= ring graph, 21 nodes => 3-colorable
+4= clique chain, 36 nodes, 1 edge b/w each clique => 6-colorable
+5= clique chain, 36 nodes, 3 edges b/w each clique
