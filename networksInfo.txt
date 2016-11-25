@@ -2,5 +2,13 @@
 1= grid graph, 20 nodes, 5x4
 2= ring graph, 20 nodes => 2-colorable
 3= ring graph, 21 nodes => 3-colorable
-4= clique chain, 36 nodes, 1 edge b/w each clique => 6-colorable
-5= clique chain, 36 nodes, 3 edges b/w each clique
+4= clique chain, 30 nodes, 1 edge b/w each clique => 6-colorable
+5= clique chain, 30 nodes, rewiring q = 0.1 => 6-colorable
+6= BA graph, 20 nodes, 2 edges added by each incoming node => 3-colorable
+7= BA graph, 30 nodes, 2 edges added by each incoming node => 3-colorable
+8= BA graph, 30 nodes, 3 edges added by each incoming node => 4-colorable
+9= ring graph, 30 nodes => 2-colorable
+10= ring graph, 31 nodes => 3-colorable
+11= cylinder graph, 30 nodes, 5 levels, 6 nodes/ring => 2-colorable
+12= binary tree, 31 nodes, 5 levels => 2-colorable
+13= dumb network 1 -- 0 -- 2 => 2-colorable

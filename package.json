@@ -4,12 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test.js",
+    "watch": "gulp watch"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "array-to-csv": "^1.0.1",
+    "jsonfile": "^2.4.0",
+    "python-shell": "^0.4.0",
     "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-mocha": "^3.0.1",
+    "mocha": "^3.1.2"
   }
 }
