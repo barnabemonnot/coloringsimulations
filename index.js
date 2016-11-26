@@ -5,8 +5,8 @@ var toCSV = require("array-to-csv");
 var fs = require("fs");
 
 // var networksIdx = _.range(networks.length);
-var networksIdx = [0, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-// var networksIdx = [11];
+var networksIdx = [0, 4, 5, 7, 8, 9, 10, 11, 12];
+// var networksIdx = [7];
 var fullResults = [];
 for (var n in networksIdx) {
     var i = networksIdx[n];
@@ -19,12 +19,13 @@ for (var n in networksIdx) {
     // simulation.printMore = true;
     simulation.runs = 10000;
     simulation.strict = true;
-    simulation.movesAllowed = 10000;
+    simulation.movesAllowed = 20000;
     simulation.machineType = "mwu";
     simulation.network = networks[i];
     simulation.run();
     fullResults.push(simulation.equilibriumResults);
     fs.writeFileSync("results/equilibriumResults-mwu.csv", toCSV(fullResults));
     console.log("finished one!!", i);
+    console.log(fullResults);
     // simulation.saveFile();
 }

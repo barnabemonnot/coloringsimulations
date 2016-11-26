@@ -139,11 +139,12 @@ var ColoringSimulation = function(obj) {
                 rounds.push(states.map(function(d) { return d; }));
             }
             var obj;
-            if (solutionFound) {
-                obj = [0, numberOfSteps];
-            }
-            else {
-                if (self.machineType == "br") {
+
+            if (self.machineType == "br") {
+                if (solutionFound) {
+                    obj = [0, numberOfSteps];
+                }
+                else {
                     var lookback = (self.movesAllowed > 100 ? 100 : Math.floor(self.movesAllowed * 0.9));
                     var stuck = _.every(rounds.filter(function(d, i) {
                         return i >= rounds.length - lookback;
@@ -151,43 +152,33 @@ var ColoringSimulation = function(obj) {
                         return _.isEqual(rounds[rounds.length - lookback + i-1], rounds[rounds.length - lookback + i]);
                     }));
                     obj = [(stuck ? 1 : 2), graphUtilities.collisionsInGraph(network.edges, states)];
-                } else if (self.machineType == "mwu") {
-                    if (terminated) {
-                        obj = [1, graphUtilities.collisionsInGraph(network.edges, states)];
-                    } else {
-                        machines.filter(function(d) {
-                            return !d.atPure;
-                        }).forEach(function(d) {
-                            if (_.every(d.weights, function(weight) {
-                                return (weight < Math.sqrt(self.precision) || weight > 1-Math.sqrt(self.precision));
-                            })) {
-                                d.atPure = true;
-                            }
-                        });
-                        var atPure = _.every(machines, function(machine) { return machine.atPure; });
-                        if (atPure) {
-                            states = machines.map(function(machine) {
-                                return _.max(
-                                    machine.weights.map(function(weight, i) { return [i, weight]; }),
-                                    function(elem) { return elem[1]; }
-                                )[0]
-                            });
-                            if (graphUtilities.checkColoring(network.edges, states)) {
-                                obj = [0, self.movesAllowed];
-                            } else {
-                                obj = [1, graphUtilities.collisionsInGraph(network.edges, states)];
-                            }
-                        } else {
-                            obj = [2, 0];
-                        }
-                    }
-                } else {
-                    console.log("bleh?");
                 }
+            } else if (self.machineType == "mwu") {
+                if (solutionFound) {
+                    obj = [0, numberOfSteps, 0];
+                }
+                else if (terminated) {
+                    obj = [1, graphUtilities.collisionsInGraph(network.edges, states), 0];
+                } else {
+                    states = machines.map(function(machine) {
+                        return _.max(
+                            machine.weights.map(function(weight, i) { return [i, weight]; }),
+                            function(elem) { return elem[1]; }
+                        )[0]
+                    });
+                    if (graphUtilities.checkColoring(network.edges, states)) {
+                        obj = [0, self.movesAllowed, 1];
+                    } else {
+                        obj = [1, graphUtilities.collisionsInGraph(network.edges, states), 1];
+                    }
+                }
+            } else {
+                console.log("bleh?");
             }
             // if (_.isEqual(obj, [2, 0])) console.log(machines);
             results.push(obj);
         }
+        console.log(machines.map(function(d, i) { return [i, d.weights]; }));
         var resultsHeader = [["status", "info"]]; // status, 0 = done; 1 = fail, stuck; 2 = fail, cycle;
         self.results = resultsHeader.concat(results);
         var maxCollisions = (results.filter(function(d) {

@@ -7,6 +7,7 @@ var MWURobot = function(obj) {
     self.precision = obj.precision;
     self.movesAllowed = self.costs.length;
     self.atPure = false;
+    self.updateNumber = 0;
     self.maxed = _.range(self.movesAllowed).map(function(d) { return false; });
 
     self.initializeWeights = function() {
@@ -25,6 +26,7 @@ var MWURobot = function(obj) {
     self.weights = self.initializeWeights();
 
     self.updateWeights = function(mixedStrategies) {
+        self.updateNumber++;
         var summedMixedStrategies = mixedStrategies.reduce(function(a, b) {
             return a.map(function(d, i) { return d+b[i]; });
         }, mixedStrategies[0].map(function(d) { return 0; }));
